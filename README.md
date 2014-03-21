@@ -1,2 +1,2 @@
-foo-truck
+food-truck
 =========
