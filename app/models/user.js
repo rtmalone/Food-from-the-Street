@@ -13,7 +13,7 @@ function User(user){
   this.email = user.email;
   this.password = user.password;
   this.role = user.role;
-  this.favTrucks = [];
+  this.trucks = [];
 }
 
 //// Note to self: update should only update specific keys; route rerender page
@@ -85,5 +85,23 @@ User.findByEmailAndPassword = function(email, password, fn){
     }else{
       fn();
     }
+  });
+};
+
+User.prototype.addTruck = function(truckID, fn){
+  var _truckID = Mongo.ObjectID(truckID);
+  var contain = _.contains(this.trucks, _truckID);
+  if(!contain){
+    this.trucks.push(_truckID);
+  }
+  users.update({_id:this._id}, this, function(err, count){
+    fn(count);
+  });
+};
+
+User.prototype.removeTruck = function(truckID, fn){
+  var _truckID = Mongo.ObjectID(truckID);
+  users.update({trucks: _truckID}, {$pull: {trucks: _truckID}}, function(err, count){
+    fn(count);
   });
 };

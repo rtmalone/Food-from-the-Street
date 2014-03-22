@@ -145,6 +145,32 @@ describe('User', function(){
       });
     });
   });
+
+  describe('.addTruck', function(){
+    it('should add a truck to Foodie user', function(done){
+      var truckID = u4._id.toString();
+      u1.addTruck(truckID, function(count){
+        expect(count).to.equal(1);
+        expect(u1.trucks).to.have.length(1);
+        expect(u1.trucks[0].toString()).to.equal(truckID);
+        done();
+      });
+    });
+  });
+
+  describe('.removeTruck', function(){
+    it('should remove a truck from Foodie user', function(done){
+      var truckID = u4._id.toString();
+      u1.addTruck(truckID, function(count){
+        expect(count).to.equal(1);
+        u1.removeTruck(truckID, function(count){
+          expect(count).to.equal(1);
+          //expect(u1.trucks).to.have.length(0);
+          done();
+        });
+      });
+    });
+  });
 /*
   describe('.findByTruck', function(){
     it('should find all Foodies associated with a specific truck', function(done){
