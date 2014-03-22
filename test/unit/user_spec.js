@@ -146,6 +146,8 @@ describe('User', function(){
     });
   });
 
+  // May need to return to addTruck and removeTruck once more info
+  // is obtained about prototype vs class methods
   describe('.addTruck', function(){
     it('should add a truck to Foodie user', function(done){
       var truckID = u4._id.toString();
@@ -171,12 +173,30 @@ describe('User', function(){
       });
     });
   });
-/*
-  describe('.findByTruck', function(){
-    it('should find all Foodies associated with a specific truck', function(done){
-      
+
+  describe('.findFoodiesByTruck', function(){
+    it('should find all Foodies with a specific truck in trucks array', function(done){
+      var sue = new User({name: 'Sue',
+                     email: 'sue@nomail.com',
+                     phone:'111-111-9999',
+                     password:'1212',
+                     role:'Foodie'});
+      var truck4ID = u4._id.toString();
+      var truck3ID = u3._id.toString();
+      sue.register(function(){
+        u1.addTruck(truck4ID, function(){
+          u1.addTruck(truck3ID, function(){
+            sue.addTruck(truck3ID, function(){
+              User.findFoodiesByTruck(truck3ID, function(foodies){
+                expect(foodies).to.have.length(2);
+                done();
+              });
+            });
+          });
+        });
+      });
     });
   });
-*/
+
 ////END////
 });
