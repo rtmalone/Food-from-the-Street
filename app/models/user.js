@@ -4,6 +4,8 @@ module.exports = User;
 var bcrypt = require('bcrypt');
 var email = require('../lib/email');
 var users = global.nss.db.collection('users');
+var Mongo = require('mongodb');
+var _ = require('lodash');
 
 function User(user){
   this.name = user.name;
@@ -15,16 +17,6 @@ function User(user){
 }
 
 //// Note to self: update should only update specific keys; route rerender page
-/*
-User.prototype.update = function(user, obj, res){
-  console.log('VVVVVVVVVVVVVVVVV');
-  console.log(obj);
-  userId = new Mongo.ObjectID(user._id);
-  users.update({_id:id, {$set: {obj}}, function(err, count){
-    res.send
-  });
-};
-*/
 
 User.prototype.register = function(fn){
   var self = this;
@@ -59,3 +51,39 @@ function insert(user, fn){
     }
   });
 }
+
+User.update = function(id, obj, fn){
+  var userId = Mongo.ObjectID(id);
+  users.update({_id:userId}, {$set: obj}, function(err, count){
+    fn(count);
+  });
+};
+
+User.findById = function(id, fn){
+  var _id = Mongo.ObjectID(id);
+  users.findOne({_id:_id}, function(err, record){
+    fn(_.extend(record, User.prototype));
+  });
+};
+
+User.findAllByRole = function(role, fn){
+  users.find({role:role}).toArray(function(err, records){
+    fn(records);
+  });
+};
+
+User.findByEmailAndPassword = function(email, password, fn){
+  users.findOne({email:email}, function(err, user){
+    if(user){
+      bcrypt.compare(password, user.password, function(err, result){
+        if(result){
+          fn(user);
+        }else{
+          fn();
+        }
+      });
+    }else{
+      fn();
+    }
+  });
+};

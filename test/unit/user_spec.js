@@ -4,10 +4,10 @@
 
 process.env.DBNAME = 'truck-test';
 var expect = require('chai').expect;
-var Mongo = require('mongodb');
+//var Mongo = require('mongodb');
 //var exec = require('child_process').exec;
 //var fs = require('fs');
-var User, u1;
+var User, u1, u3, u4;
 
 describe('User', function(){
 
@@ -26,8 +26,22 @@ describe('User', function(){
                      phone:'111-111-1111',
                      password:'1234',
                      role:'Foodie'});
+      u3 = new User({name: 'Courtney',
+                     email: 'courtney@nomail.com',
+                     phone:'222-222-2222',
+                     password:'5678',
+                     role:'Truck'});
+      u4 = new User({name: 'Poptart',
+                     email: 'poptart@nomail.com',
+                     phone:'333-333-2222',
+                     password:'abcd',
+                     role:'Truck'});
       u1.register(function(){
-        done();
+        u3.register(function(){
+          u4.register(function(){
+            done();
+          });
+        });
       });
     });
   });
@@ -43,7 +57,7 @@ describe('User', function(){
   });
 
   describe('#register', function(){
-    it('should insert new user into database', function(done){
+    it('should register a new user into database', function(done){
       var tyler = new User({name: 'Tyler',
                      email: 'mylovelytn@gmail.com',
                      phone:'111-111-1111',
@@ -52,13 +66,14 @@ describe('User', function(){
       tyler.register(function(err,body){
         expect(err).to.not.be.ok;
         expect(tyler.password).to.have.length(60);
-        expect(tyler._id).to.be.instanceof(Mongo.ObjectID);
+        //expect(tyler._id).to.be.instanceof(Mongo.ObjectID);   <----uncomment for true testing
         body = JSON.parse(body);
         expect(body.id).to.be.ok;
         done();
       });
     });
-    it('should not insert a new user into db with dup email', function(done){
+
+    it('should not register a new user into db with dup email', function(done){
       var u2 = new User({name: 'John',
                      email: 'mylovelytn@nomail.com',
                      phone:'111-111-1111',
@@ -70,45 +85,70 @@ describe('User', function(){
       });
     });
   });
-/*
-  describe('#update', function(){
-    it('should allow user to update info', function(done){
-      User.update(u1, {name: 'Sarah',
-                   phone:'111-222-3333',
-                   role:'Truck'}, function(ret, user){
-        expect(ret).to.equal(1);
-        expect(user.name).to.equal('Sarah');
-        expect(user.phone).to.equal('111-222-3333');
-        expect(user.role).to.equal('Truck');
+
+  describe('.findByEmailAndPassword', function(){
+    it('should find a user', function(done){
+      User.findByEmailAndPassword('mylovelytn@nomail.com', '1234', function(user){
+        expect(user).to.be.ok;
+        done();
+      });
+    });
+    it('should not find user - bad email', function(done){
+      User.findByEmailAndPassword('wrong@nomail.com', '1234', function(user){
+        expect(user).to.be.undefined;
+        done();
+      });
+    });
+    it('should not find user - bad password', function(done){
+      User.findByEmailAndPassword('mylovelytn@nomail.com', 'wrong', function(user){
+        expect(user).to.be.undefined;
         done();
       });
     });
   });
-  */
 
-/*
-  describe('.findById', function(){
-    it('should find a user by ID', function(done){
-      u1.insert(function(){
-        u2.insert(function(){
-          var user2Id = u2._id.toString();
-          User.findById(user2Id, function(user){
-            expect(user._id.toString()).to.equal(user2Id);
-            done();
-          });
+  describe('.update', function(){
+    it('should allow user to update info', function(done){
+      User.update(u1._id.toString(), {name: 'Sarah',
+                   phone:'111-222-3333',
+                   role:'Truck'}, function(ret, user){
+        expect(ret).to.equal(1);
+        User.findById(u1._id.toString(), function(record){
+          expect(record.name).to.equal('Sarah');
+          expect(record.phone).to.equal('111-222-3333');
+          expect(record.role).to.equal('Truck');
+          done();
         });
       });
     });
   });
 
-  describe('.findByFacebookId', function(){
-    it('should find a user by fb ID', function(done){
-      u2.insert(function(){
-        User.findByFacebookId(u2.facebookId, function(ret){
-          expect(ret.facebookId).to.equal('1234');
+  describe('.findById', function(){
+    it('should find a user by ID', function(done){
+      var user3Id = u3._id.toString();
+      User.findById(user3Id, function(user){
+        expect(user._id.toString()).to.equal(user3Id);
+        expect(user.name).to.equal('Courtney');
+        done();
+      });
+    });
+  });
+
+  describe('.findAllByRole', function(){
+    it('should find a user by role', function(done){
+      User.findAllByRole('Foodie', function(users){
+        expect(users).to.have.length(1);
+        User.findAllByRole('Truck', function(users){
+          expect(users).to.have.length(2);
           done();
         });
       });
+    });
+  });
+/*
+  describe('.findByTruck', function(){
+    it('should find all Foodies associated with a specific truck', function(done){
+      
     });
   });
 */
