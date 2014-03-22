@@ -16,8 +16,6 @@ function User(user){
   this.trucks = [];
 }
 
-//// Note to self: update should only update specific keys; route rerender page
-
 User.prototype.register = function(fn){
   var self = this;
   hashPassword(self.password, function(hashed){
@@ -52,6 +50,7 @@ function insert(user, fn){
   });
 }
 
+// Note to self: update should only update specific keys; route rerender page
 User.update = function(id, obj, fn){
   var userId = Mongo.ObjectID(id);
   users.update({_id:userId}, {$set: obj}, function(err, count){
@@ -111,7 +110,6 @@ User.prototype.removeTruck = function(truckID, fn){
 User.findFoodiesByTruck = function(truckID, fn){
   var _truckID = Mongo.ObjectID(truckID);
   users.find({trucks: _truckID}).toArray(function(err, foodies){
-    console.log(foodies);
     fn(foodies);
   });
 };

@@ -148,7 +148,7 @@ describe('User', function(){
 
   // May need to return to addTruck and removeTruck once more info
   // is obtained about prototype vs class methods
-  describe('.addTruck', function(){
+  describe('#addTruck', function(){
     it('should add a truck to Foodie user', function(done){
       var truckID = u4._id.toString();
       u1.addTruck(truckID, function(count){
