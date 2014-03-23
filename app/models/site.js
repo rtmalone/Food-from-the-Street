@@ -2,9 +2,8 @@
 
 module.exports = Site;
 //var bcrypt = require('bcrypt');
-//var email = require('../lib/email');
 var sites = global.nss.db.collection('sites');
-//var Mongo = require('mongodb');
+var Mongo = require('mongodb');
 //var _ = require('lodash');
 
 function Site(site){
@@ -18,7 +17,16 @@ function Site(site){
 }
 
 Site.prototype.insert = function(fn){
-  sites.insert(this, function(err, site){
-    fn(site[0]);
+  var self = this;
+  sites.insert(self, function(err, records){
+    fn(records);
+  });
+};
+
+Site.update = function(id, obj, fn){
+  console.log(obj);
+  var _id = Mongo.ObjectID(id);
+  sites.update({_id:_id}, {$set: obj}, function(err, count){
+    fn(count);
   });
 };

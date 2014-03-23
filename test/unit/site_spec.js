@@ -60,5 +60,19 @@ describe('Site', function(){
       });
     });
   });
+/*
+  describe('#update', function(){
+    it('should update a site record', function(done){
+      s2.insert(function(){
+        Site.update(s2._id.toString(), {endTime: '1:30 PM',
+                                        address: '345 Main St'},
+                                        function(ret){
+          expect(ret).to.equal(1);
+          done();
+        });
+      });
+    });
+  });
+  */
 ///END
 });
