@@ -7,7 +7,7 @@ var expect = require('chai').expect;
 var Mongo = require('mongodb');
 //var exec = require('child_process').exec;
 //var fs = require('fs');
-var Site, s2;
+var Site, s2, s3;
 
 describe('Site', function(){
 
@@ -21,15 +21,25 @@ describe('Site', function(){
 
   beforeEach(function(done){
     global.nss.db.dropDatabase(function(err, result){
-      s2 = new Site({eventName: 'Angular Party',
-                     truckName: 'Smoke et al',
-                     startTime: '11:00 AM',
-                     endTime: '1:00 PM',
-                     date: '03/23/14',
-                     address: '123 Main St',
-                     lat: '36',
-                     lng: '32',});
-      done();
+      global.nss.db.collection('sites').ensureIndex({'coordinates':'2dsphere'}, function(err, indexName){
+        s2 = new Site({eventName: 'Angular Party',
+                       truckName: 'Smoke et al',
+                       startTime: '11:00 AM',
+                       endTime: '1:00 PM',
+                       date: '03/23/14',
+                       address: '123 Main St',
+                       lat: '36',
+                       lng: '32',});
+        s3 = new Site({eventName: 'NSS Party',
+                       truckName: 'Grilled Cheeserie',
+                       startTime: '5:00 PM',
+                       endTime: '7:00 PM',
+                       date: '03/27/14',
+                       address: '789 Main St',
+                       lat: '36',
+                       lng: '40',});
+        done();
+      });
     });
   });
   
@@ -45,8 +55,8 @@ describe('Site', function(){
                          lng: '32',});
       expect(s1).to.be.instanceof(Site);
       expect(s1.eventName).to.equal('Node Party');
-      expect(s1.coords).to.be.an('array');
-      expect(s1.coords[0]).to.equal(31);
+      expect(s1.coordinates).to.be.an('array');
+      expect(s1.coordinates[0]).to.equal(31);
       done();
     });
   });
@@ -60,7 +70,7 @@ describe('Site', function(){
       });
     });
   });
-/*
+
   describe('#update', function(){
     it('should update a site record', function(done){
       s2.insert(function(){
@@ -73,6 +83,63 @@ describe('Site', function(){
       });
     });
   });
-  */
+
+  describe('.findAll', function(){
+    it('should find all sites in db', function(done){
+      s2.insert(function(){
+        s3.insert(function(){
+          Site.findAll(function(sites){
+            expect(sites).to.have.length(2);
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  describe('.findById', function(){
+    it('should find a site by id', function(done){
+      s2.insert(function(){
+        s3.insert(function(){
+          var site3Id = s3._id.toString();
+          Site.findById(site3Id, function(site){
+            expect(site._id.toString()).to.equal(site3Id);
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  describe('.findClosestByNow', function(){
+    it('should find closest Sites within a time frame', function(done){
+      var s4 = new Site({eventName: 'Courthouse',
+                     truckName: 'wrappers delight',
+                     startTime: '11:00 AM',
+                     endTime: '1:00 PM',
+                     date: '03/24/14',
+                     address: '123 Main St',
+                     lat: '40',
+                     lng: '41',});
+      var s5 = new Site({eventName: 'Hospital',
+                     truckName: 'Grilled Cheeserie',
+                     startTime: '5:00 PM',
+                     endTime: '7:00 PM',
+                     date: '03/27/14',
+                     address: '789 Main St',
+                     lat: '36',
+                     lng: '36',});
+      s4.insert(function(){
+        s5.insert(function(){
+          var localObj = {lat: 36, lng: 35};
+          Site.findClosestByNow(localObj, function(records){
+            expect(records[0].eventName).to.equal('Hospital');
+            done();
+          });
+        });
+      });
+    });
+  });
+
 ///END
 });

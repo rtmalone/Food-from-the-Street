@@ -100,7 +100,7 @@ User.prototype.addTruck = function(truckID, fn){
   });
 };
 
-User.prototype.removeTruck = function(truckID, fn){
+User.removeTruck = function(truckID, fn){
   var _truckID = Mongo.ObjectID(truckID);
   users.update({trucks: _truckID}, {$pull: {trucks: _truckID}}, function(err, count){
     fn(count);

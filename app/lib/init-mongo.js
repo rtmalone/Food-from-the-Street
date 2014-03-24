@@ -18,8 +18,12 @@ exports.db = function(fn){
     if(err){throw err;}
     global.nss = {};
     global.nss.db = db;
-    console.log('Connected to MongoDB');
-    fn();
+    global.nss.db.collection('sites').ensureIndex({'coordinates':'2dsphere'}, function(err, indexName){
+      console.log(err);
+      console.log(indexName);
+      console.log('Connected to MongoDB');
+      fn();
+    });
   });
 };
 

@@ -163,12 +163,18 @@ describe('User', function(){
   describe('.removeTruck', function(){
     it('should remove a truck from Foodie user', function(done){
       var truckID = u4._id.toString();
+      var truck3ID = u3._id.toString();
       u1.addTruck(truckID, function(count){
-        expect(count).to.equal(1);
-        u1.removeTruck(truckID, function(count){
-          expect(count).to.equal(1);
-          //expect(u1.trucks).to.have.length(0);
-          done();
+        u1.addTruck(truck3ID, function(count){
+          expect(u1.trucks).to.have.length(2);
+          User.removeTruck(truckID, function(count){
+            expect(count).to.equal(1);
+            User.findById(u1._id.toString(), function(user){
+              expect(user.name).to.equal('John');
+              expect(user.trucks).to.have.length(1);
+              done();
+            });
+          });
         });
       });
     });
