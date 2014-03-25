@@ -4,15 +4,17 @@ module.exports = Site;
 var sites = global.nss.db.collection('sites');
 var Mongo = require('mongodb');
 var _ = require('lodash');
+var moment = require('moment');
+var dateFormat = 'MM-DD-YYYY HH:mm A';
 
-function Site(site){
-  this.eventName = site.eventName || site.truckName;
-  this.address = site.address;
-  this.truckName = site.truckName;
-  this.startTime = site.startTime;
-  this.endTime = site.endTime;
-  this.date = new Date(site.date);
-  this.coordinates= [site.lat * 1, site.lng * 1];
+function Site(attrs){
+  this.eventName = attrs.eventName || attrs.truckName;
+  this.address = attrs.address;
+  this.truckName = attrs.truckName;
+  this.startTime = moment(attrs.startTime, dateFormat); //reminder: moment parses string from browser
+  this.endTime = moment(attrs.endTime, dateFormat); //reminder: moment parses string from browser
+  //this.date = new Date(attrs.date);
+  this.coordinates= [attrs.lat * 1, attrs.lng * 1];
 }
 
 Site.prototype.insert = function(fn){
@@ -42,13 +44,18 @@ Site.findById = function(id, fn){
 };
 
 Site.findClosestByNow = function(query, fn){
-  console.log(query);
   var lat = query.lat * 1;
   var lng = query.lng * 1;
-  var now = new Date();
+  var now = moment().format('MM-DD-YYYY HH:mm A');
 
-  sites.find({'coordinates':{$nearSphere:{$geometry:{type:'Point', coordinates:[lat, lng]}}, $maxDistance : 2500000}}).toArray(function(err, records){
-    console.log(records);
+  sites.find({'coordinates':{$nearSphere:{$geometry:{type:'Point', coordinates:[lat, lng]}},
+    $maxDistance : 2500000}}).toArray(function(err, records){
     fn(records);
+    /*
+    fn(_.filter(records, function(rec){
+      console.log(records);
+      //return records;
+      //return moment().startOf('day').toDate().format('MM-DD-YYYY HH:mm A') < rec.startTime && moment().endOf('day').toDate().format('MM-DD-YYYY HH:mm A') > rec.startTime;
+    }));*/
   });
 };

@@ -7,3 +7,6 @@ services:
 after_script:
   - npm run coveralls
 
+env:
+    global:
+        - secure:OIFmP3djrib42L7NpIGhkV7BuuZB4bO9iCjQ1txKDfZuUUOZKOJnX4WbaKVs6WQEYetZoIGK+Ae/NYHwQ4kfS/N9MdejyXGLlHiRQUxPomWVmuY68M6dCKY77W/rLb6EwuXsH1/tVrvbKFsZYzvbCL7j0TtP0O5HWGN3/3nqb5ALY=OIFmP3djrib42L7NpIGhkV7BZB4bO9iCjQ1txKDfZuUUOZKOJnX4WbaKVs6WQEYetZoIGK+Ae/NYHwQ4kfS/N9MdejyXGLlHiRQUxPomWVmuY68M6dCKY77W/rLb6EwuXsH1/tVrvbKFsZYzvbCL7j0TtP0O5HWGN3/3nqb5ALY=
