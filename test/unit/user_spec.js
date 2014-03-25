@@ -4,7 +4,7 @@
 
 process.env.DBNAME = 'truck-test';
 var expect = require('chai').expect;
-var Mongo = require('mongodb');
+//var Mongo = require('mongodb');
 //var exec = require('child_process').exec;
 //var fs = require('fs');
 var User, u1, u3, u4;

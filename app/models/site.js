@@ -46,7 +46,7 @@ Site.findById = function(id, fn){
 Site.findClosestByNow = function(query, fn){
   var lat = query.lat * 1;
   var lng = query.lng * 1;
-  var now = moment().format('MM-DD-YYYY HH:mm A');
+  //var now = moment().format('MM-DD-YYYY HH:mm A');
 
   sites.find({'coordinates':{$nearSphere:{$geometry:{type:'Point', coordinates:[lat, lng]}},
     $maxDistance : 2500000}}).toArray(function(err, records){

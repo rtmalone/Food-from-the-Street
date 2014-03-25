@@ -25,13 +25,15 @@ html(class='no-js', lang='en')
           li: a(href="/") Register
           li.divider
           li: a(href="/") Login
-    .row
-      .small-12.columns
+    #map
+
         block content
 
     script(src='/js/vendor/jquery.js')
     script(src='/js/vendor/foundation.min.js')
     script(src='/js/vendor/lodash.js')
     script(src='/js/vendor/moment.js')
+    script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyABh9kQpqRs0PlP4osmgibebLfXHxIfTKo&sensor=true')
     script(src='/js/source/main.js')
+    script(src='/js/source/sites.js')
 
