@@ -52,6 +52,8 @@ function insert(user, fn){
 
 // Note to self: update should only update specific keys; route rerender page
 User.update = function(id, obj, fn){
+  console.log('model update id');
+  console.log(id);
   var userId = Mongo.ObjectID(id);
   users.update({_id:userId}, {$set: obj}, function(err, count){
     fn(count);

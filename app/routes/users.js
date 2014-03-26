@@ -2,7 +2,6 @@
 
 var User = require('../models/user');
 //var Item = require('../models/item');
-//var gravatar = require('gravatar');
 //var request = require('request');
 
 exports.register = function(req, res){
@@ -46,4 +45,8 @@ exports.profile = function(req, res){
   });
 };
 
-
+exports.update = function(req, res){
+  User.update(req.session.userId, req.body, function(count){
+    res.redirect('users/profile');
+  });
+};

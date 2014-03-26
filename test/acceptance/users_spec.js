@@ -128,7 +128,7 @@ describe('users', function(){
     });
 
     describe('GET /users:id', function(){
-      it('should login a user', function(done){
+      it('should show a user profile', function(done){
         request(app)
         .get('/users/1234')
         .set('cookie', cookie)
@@ -138,7 +138,31 @@ describe('users', function(){
         });
       });
     });
+
+    describe('POST /updateUser', function(){
+      it('should update a user', function(done){
+        request(app)
+        .post('/updateUser')
+        .set('cookie', cookie)
+        .field('phone', '222-222-2222')
+        .field('role', 'Truck')
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          done();
+        });
+      });
+    });
   });
+    /*
+    describe('POST /addTruck', function(){
+      it('should add a truck to a user', function(done){
+        request(app)
+        .post('/addTruck')
+        .set('cookie', cookie)
+      });
+    });
+  });
+  */
   /////END DESCRIBE
 });
 
