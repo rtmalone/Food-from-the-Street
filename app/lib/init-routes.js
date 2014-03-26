@@ -14,8 +14,14 @@ module.exports = function(req, res, next){
 
 function load(app, fn){
   var home = require('../routes/home');
+  var users = require('../routes/users');
 
   app.get('/', d, home.index);
+  app.post('/register', d, users.register);
+  app.post('/login', d, users.login);
+  app.post('/logout', d, users.logout);
+  app.get('/users/:id', d, users.profile);
+
   console.log('Routes Loaded');
   fn();
 }
