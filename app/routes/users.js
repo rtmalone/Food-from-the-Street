@@ -1,6 +1,7 @@
 'use strict';
 
 var User = require('../models/user');
+var Site = require('../models/site');
 //var Item = require('../models/item');
 //var request = require('request');
 
@@ -41,12 +42,31 @@ exports.logout = function(req, res){
 // Need a Site.findByTruckId method to return events linked to trucks here
 exports.profile = function(req, res){
   User.findById(req.session.userId, function(user){
-    res.render('users/profile', {user:user});
+    if(user.role === 'Foodie'){
+      User.findAllByRole('Truck', function(trucks){
+        user.trucks(function(myTrucks){
+          res.render('users/profile', {user:user, trucks:trucks, myTrucks:myTrucks});
+        });
+      });
+    } else {
+      Site.findAllByTruckId(req.session.userId, function(sites){
+        res.render('users/profile', {user:user, sites:sites});
+      });
+    }
   });
 };
 
 exports.update = function(req, res){
   User.update(req.session.userId, req.body, function(count){
     res.redirect('users/profile');
+  });
+};
+
+exports.addTruck = function(req, res){
+  console.log(req.body);
+  User.findById(req.session.userId, function(user){
+    user.addTruck(req.body.truckId, function(){
+      res.redirect('users/profile');
+    });
   });
 };

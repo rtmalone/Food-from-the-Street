@@ -1,5 +1,14 @@
 extends ../shared/template
 
 block content
-  h1= title
 
+  #map
+
+  if sites
+    script.
+      var places = !{JSON.stringify(sites)};
+
+
+
+block scripts
+  script(src='/js/source/sites.js')

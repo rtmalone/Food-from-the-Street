@@ -153,9 +153,11 @@ describe('User', function(){
       var truckID = u4._id.toString();
       u1.addTruck(truckID, function(count){
         expect(count).to.equal(1);
-        expect(u1.trucks).to.have.length(1);
-        expect(u1.trucks[0].toString()).to.equal(truckID);
-        done();
+        User.findById(u1._id.toString(), function(user){
+          expect(user.truckIds).to.have.length(1);
+          expect(user.truckIds[0].toString()).to.equal(truckID);
+          done();
+        });
       });
     });
   });
@@ -166,12 +168,11 @@ describe('User', function(){
       var truck3ID = u3._id.toString();
       u1.addTruck(truckID, function(count){
         u1.addTruck(truck3ID, function(count){
-          expect(u1.trucks).to.have.length(2);
           User.removeTruck(truckID, function(count){
             expect(count).to.equal(1);
             User.findById(u1._id.toString(), function(user){
               expect(user.name).to.equal('John');
-              expect(user.trucks).to.have.length(1);
+              expect(user.truckIds).to.have.length(1);
               done();
             });
           });

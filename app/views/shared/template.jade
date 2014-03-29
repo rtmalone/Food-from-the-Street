@@ -20,20 +20,117 @@ html(class='no-js', lang='en')
       section.top-bar-section
         ul.left
         ul.right
-          li: a(href="/") Home
           li.divider
-          li: a(href="/") Register
-          li.divider
-          li: a(href="/") Login
-    #map
+          if user
+            li.has-form.has-dropdown.not-click
+              a(href='#')= user.name ? user.name : user.email
+              if user.role === 'Foodie'
+                ul.dropdown
+                  li: a(href='/users/'+user._id) Account
+              else
+                ul.dropdown
+                  li: a(href='/users/'+user._id) Account
+                  li: a(href='#' data-reveal-id='newEventModal') New Event
+            li.divider
+            li.has-form
+              form(action='/logout', method='post')
+                button#logout.tiny.radius.alert Logout
+          else
+            li: a(href='#' data-reveal-id='registerModal') Register
+            li.divider
+            li: a(href='#' data-reveal-id='loginModal') Login
 
-        block content
+      #registerModal.reveal-modal.medium(data-reveal)
+        .row
+          .small-12.columns
+            h4 Please Register...
+        form(action='/register', method='post', enctype='multipart/form-data')
+          .row
+            .small-4.columns
+              label Are you a Foodie or Truck owner?
+              select(name='role')
+                option(value='Foodie') Foodie
+                option(value='Truck') Truck
+          .row
+            .small-4.columns
+              label Name/Truck Name*
+              input(type='text', name='name', required)
+            .small-4.columns
+              label Phone*
+              input(type='text', name='phone', required)
+            .small-4.columns
+              label Email*
+              input(type='email', name='email', required)
+          .row
+            .small-4.columns
+              label Create Password*
+              input(type='password', name='password', required)
+            .small-4.columns.right
+              label &nbsp;
+              button.small.radius.alert.right Register
+        a.close-reveal-modal &#215;
+
+      #loginModal.reveal-modal.small(data-reveal)
+        .row
+          .small-12.columns
+            h4 Login
+        form(action='/login', method='post')
+          .row
+            .small-12.columns
+              label Email
+              input(type='email', name='email', autofocus=true)
+              label Password
+              input(type='password', name='password')
+          .row
+            .small-4.columns
+              button.small.radius.alert Login
+        a.close-reveal-modal &#215;
+
+      #newEventModal.reveal-modal.medium(data-reveal)
+        .row
+          .small-12.columns
+            h4 Create your new event!
+        form(action='/sites', method='post')
+          .row
+            .small-4.columns
+              label Truck Name
+              input(type='text', name='truckName', value=user.name, autofocus=true)
+            .small-8.columns
+              label Event Name (optional)
+              input(type='text', name='eventName')
+          .row
+            .small-4.columns
+              label Date
+              input#dateInput(type='date', name='date')
+            .small-4.columns
+              label Start Time
+              input#startInput(type='time', name='startTime')
+            .small-4.columns
+              label End Time
+              input#endInput(type='time', name='endTime')
+          .row
+            .small-12.columns
+              label Event Address
+              input#addressInput(type='text', name='address')
+              input(type='hidden', name='lat')
+              input(type='hidden', name='lng')
+          .row
+            .small-4.columns.right
+              button#createEventBtn.small.radius.alert.right Create Event
+        a.close-reveal-modal &#215;
+
+
+    block content
 
     script(src='/js/vendor/jquery.js')
     script(src='/js/vendor/foundation.min.js')
     script(src='/js/vendor/lodash.js')
     script(src='/js/vendor/moment.js')
+    script(src='/js/vendor/picker.js')
+    script(src='/js/vendor/picker.time.js')
+    script(src='/js/vendor/picker.date.js')
     script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyABh9kQpqRs0PlP4osmgibebLfXHxIfTKo&sensor=true')
     script(src='/js/source/main.js')
-    script(src='/js/source/sites.js')
+    script(src='/js/source/new-site.js')
+    block scripts
 

@@ -1,5 +1,29 @@
 extends ../shared/template
 
 block content
-  h5= user.name
-  p Info about user here
+  #profileDiv
+    h5= user.name
+    h6= user.email
+    h6= user.phone
+
+    if user.role === 'Truck'
+      #eventDiv
+        h5 Upcoming Events
+        each site in sites
+          h5= site.date
+          h5= site.truckName
+          h5= site.address
+          form(action='/sites/'+site._id, method='post')
+            input(type='hidden', name='_method', value='delete')
+            button.alert.tiny.radius Delete
+    else
+      #eventDiv
+        h5 Favorite Trucks
+        each truck in myTrucks
+          h6= truck.name
+        form(action='/users/addTruck', method='post')
+          select#selectTruck(name='truckId')
+            each truck in trucks
+              option(value=truck._id)= truck.name
+          button.tiny.radius Add Truck
+

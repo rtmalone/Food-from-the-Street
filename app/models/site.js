@@ -4,17 +4,18 @@ module.exports = Site;
 var sites = global.nss.db.collection('sites');
 var Mongo = require('mongodb');
 var _ = require('lodash');
-var moment = require('moment');
-var dateFormat = 'MM-DD-YYYY HH:mm A';
+//var moment = require('moment');
+//var dateFormat = 'HH:mm A';
 
 function Site(attrs){
   this.eventName = attrs.eventName || attrs.truckName;
   this.address = attrs.address;
   this.truckName = attrs.truckName;
-  this.startTime = moment(attrs.startTime, dateFormat); //reminder: moment parses string from browser
-  this.endTime = moment(attrs.endTime, dateFormat); //reminder: moment parses string from browser
-  //this.date = new Date(attrs.date);
+  this.startTime = attrs.startTime; //reminder: moment parses string from browser
+  this.endTime = attrs.endTime; //reminder: moment parses string from browser
+  this.date = attrs.date;
   this.coordinates= [attrs.lat * 1, attrs.lng * 1];
+  this.truckId = Mongo.ObjectID(attrs.truckId);
 }
 
 Site.prototype.insert = function(fn){
@@ -43,19 +44,27 @@ Site.findById = function(id, fn){
   });
 };
 
+Site.findAllByTruckId = function(truckId, fn){
+  var _truckId = Mongo.ObjectID(truckId);
+  sites.find({truckId: _truckId}).toArray(function(err, records){
+    fn(records);
+  });
+};
+
 Site.findClosestByNow = function(query, fn){
   var lat = query.lat * 1;
   var lng = query.lng * 1;
-  //var now = moment().format('MM-DD-YYYY HH:mm A');
 
   sites.find({'coordinates':{$nearSphere:{$geometry:{type:'Point', coordinates:[lat, lng]}},
     $maxDistance : 2500000}}).toArray(function(err, records){
+    console.log('/////records///');
     fn(records);
-    /*
-    fn(_.filter(records, function(rec){
-      console.log(records);
-      //return records;
-      //return moment().startOf('day').toDate().format('MM-DD-YYYY HH:mm A') < rec.startTime && moment().endOf('day').toDate().format('MM-DD-YYYY HH:mm A') > rec.startTime;
-    }));*/
+  });
+};
+
+Site.deleteById = function(id, fn){
+  var _id = Mongo.ObjectID(id);
+  sites.remove({_id:_id}, function(err, count){
+    fn(count);
   });
 };

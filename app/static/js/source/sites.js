@@ -11,8 +11,7 @@
   var map, lat, lng;
   var markers = [];
   var styledArray = [
-    {'featureType':'water',
-      'stylers':[{'visibility':'on'},{'color':'#b5cbe4'}]},
+    {'featureType':'water','stylers':[{'visibility':'on'},{'color':'#b5cbe4'}]},
     {'featureType':'landscape','stylers':[{'color':'#efefef'}]},
     {'featureType':'road.highway','elementType':'geometry','stylers':[{'color':'#83a5b0'}]},
     {'featureType':'road.arterial','elementType':'geometry','stylers':[{'color':'#bdcdd3'}]},
@@ -21,7 +20,6 @@
     {'featureType':'administrative','stylers':[{'visibility':'on'},{'lightness':33}]},
     {'featureType':'road'},
     {'featureType':'poi.park','elementType':'labels','stylers':[{'visibility':'on'},{'lightness':20}]},
-    {},
     {'featureType':'road','stylers':[{'lightness':20}]}
   ];
 
@@ -61,14 +59,23 @@
   }
 
   function initMap(lat, lng, zoom){
-    var mapOptions = {center: new google.maps.LatLng(lat, lng), zoom: zoom, mapTypeId: google.maps.MapTypeId.ROADMAP, stlyes:styledArray};
+    var mapOptions = {center: new google.maps.LatLng(lat, lng), zoom: zoom, mapTypeId: google.maps.MapTypeId.ROADMAP, styles:styledArray};
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
   }
 
   function addMarker(location){
-    var position = new google.maps.LatLng(location.lat, location.lng);
+    var position = new google.maps.LatLng(location.coordinates[0], location.coordinates[1]);
+    var content = '<div>'+location.truckName+'<p>'+location.address+'</p>'+
+                  '<p>'+location.startTime+'</p>'+'<p>'+location.endTime+'</p>'+'</div>';
+    var infowindow = new google.maps.InfoWindow({
+      content: content
+    });
     var marker = new google.maps.Marker({map:map, position:position, title:location.address});
     markers.push(marker);
+    //content for window
+    google.maps.event.addListener(marker, 'mouseover', function() {
+      infowindow.open(map,marker);
+    });
   }
 
 })();

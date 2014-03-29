@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = User;
+
 var bcrypt = require('bcrypt');
 var email = require('../lib/email');
 var users = global.nss.db.collection('users');
@@ -13,7 +14,7 @@ function User(user){
   this.email = user.email;
   this.password = user.password;
   this.role = user.role;
-  this.trucks = [];
+  this.truckIds = [];
 }
 
 User.prototype.register = function(fn){
@@ -52,8 +53,6 @@ function insert(user, fn){
 
 // Note to self: update should only update specific keys; route rerender page
 User.update = function(id, obj, fn){
-  console.log('model update id');
-  console.log(id);
   var userId = Mongo.ObjectID(id);
   users.update({_id:userId}, {$set: obj}, function(err, count){
     fn(count);
@@ -92,26 +91,35 @@ User.findByEmailAndPassword = function(email, password, fn){
 // May need to return to addTruck and removeTruck once more info
 // is obtained about prototype vs class methods
 User.prototype.addTruck = function(truckID, fn){
+  var self = this;
   var _truckID = Mongo.ObjectID(truckID);
-  var contain = _.contains(this.trucks, _truckID);
-  if(!contain){
-    this.trucks.push(_truckID);
-  }
-  users.update({_id:this._id}, this, function(err, count){
+  console.log(_truckID);
+ // var contain = _.contains(this.trucks, _truckID);
+  //if(!contain){
+    //this.trucks.push(_truckID);
+  //}
+  users.update({_id:self._id}, {$addToSet: {truckIds: _truckID}}, function(err, count){
     fn(count);
   });
 };
 
 User.removeTruck = function(truckID, fn){
   var _truckID = Mongo.ObjectID(truckID);
-  users.update({trucks: _truckID}, {$pull: {trucks: _truckID}}, function(err, count){
+  users.update({truckIds: _truckID}, {$pull: {truckIds: _truckID}}, function(err, count){
     fn(count);
   });
 };
 
 User.findFoodiesByTruck = function(truckID, fn){
   var _truckID = Mongo.ObjectID(truckID);
-  users.find({trucks: _truckID}).toArray(function(err, foodies){
+  users.find({truckIds: _truckID}).toArray(function(err, foodies){
     fn(foodies);
+  });
+};
+
+User.prototype.trucks = function(fn) {
+  //var ids = _.map(this.truckIds, function(id){ return Mongo.ObjectID(id);});
+  users.find({role: 'Truck', _id: { $in: this.truckIds }}).toArray(function(err, trucks){
+    fn(trucks);
   });
 };
