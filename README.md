@@ -1,4 +1,4 @@
-food-truck
+Food from the Street
 =========
 [![Build Status](https://travis-ci.org/rtmalone/food-truck.svg)](https://travis-ci.org/rtmalone/food-truck)
 [![Coverage Status](https://coveralls.io/repos/rtmalone/food-truck/badge.png?branch=unit-tests)](https://coveralls.io/r/rtmalone/food-truck?branch=unit-tests)
