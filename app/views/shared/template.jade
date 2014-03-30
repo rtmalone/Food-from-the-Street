@@ -10,40 +10,40 @@ html(class='no-js', lang='en')
     link(rel='stylesheet', href='/less/app.css')
     script(src='/js/vendor/modernizr.js')
   body
-    nav.top-bar
-      ul.title-area
-        li.name
-          h1: a(href="/") The Title
-        li.toggle-topbar.menu-icon
-          a(href="#") Menu
+    .fixed
+      nav.top-bar.green
+        ul.title-area
+          li.name
+            h1: a#title(href="/") Food on the Street
+          li.toggle-topbar.menu-icon
 
-      section.top-bar-section
-        ul.left
-        ul.right
-          li.divider
-          if user
-            li.has-form.has-dropdown.not-click
-              a(href='#')= user.name ? user.name : user.email
-              if user.role === 'Foodie'
-                ul.dropdown
-                  li: a(href='/users/'+user._id) Account
-              else
-                ul.dropdown
-                  li: a(href='/users/'+user._id) Account
-                  li: a(href='#' data-reveal-id='newEventModal') New Event
+        section.top-bar-section
+          ul.left
+          ul.right.green
             li.divider
-            li.has-form
-              form(action='/logout', method='post')
-                button#logout.tiny.radius.alert Logout
-          else
-            li: a(href='#' data-reveal-id='registerModal') Register
-            li.divider
-            li: a(href='#' data-reveal-id='loginModal') Login
+            if user
+              li.green.has-form.has-dropdown.not-click
+                a.green(href='#')= user.name ? user.name : user.email
+                if user.role === 'Foodie'
+                  ul.dropdown
+                    li.green: a.green(href='/users/'+user._id) Account
+                else
+                  ul.dropdown
+                    li.green: a.green(href='/users/'+user._id) Account
+                    li.green: a.green(href='#' data-reveal-id='newEventModal') New Event
+              li.divider
+              li.green.has-form
+                form(action='/logout', method='post')
+                  button#logout.tiny.radius.alert Logout
+            else
+              li.green: a.green(href='#' data-reveal-id='registerModal') Register
+              li.divider
+              li.green: a.green(href='#' data-reveal-id='loginModal') Login
 
       #registerModal.reveal-modal.medium(data-reveal)
         .row
           .small-12.columns
-            h4 Please Register...
+            h3.modTitle Please Register...
         form(action='/register', method='post', enctype='multipart/form-data')
           .row
             .small-4.columns
@@ -73,7 +73,7 @@ html(class='no-js', lang='en')
       #loginModal.reveal-modal.small(data-reveal)
         .row
           .small-12.columns
-            h4 Login
+            h3.modTitle Login...
         form(action='/login', method='post')
           .row
             .small-12.columns
@@ -89,7 +89,7 @@ html(class='no-js', lang='en')
       #newEventModal.reveal-modal.medium(data-reveal)
         .row
           .small-12.columns
-            h4 Create your new event!
+            h3.modTitle Create your new event...
         form(action='/sites', method='post')
           .row
             .small-4.columns
@@ -126,11 +126,9 @@ html(class='no-js', lang='en')
     script(src='/js/vendor/foundation.min.js')
     script(src='/js/vendor/lodash.js')
     script(src='/js/vendor/moment.js')
-    script(src='/js/vendor/picker.js')
-    script(src='/js/vendor/picker.time.js')
-    script(src='/js/vendor/picker.date.js')
-    script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyABh9kQpqRs0PlP4osmgibebLfXHxIfTKo&sensor=true')
     script(src='/js/source/main.js')
+    script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyABh9kQpqRs0PlP4osmgibebLfXHxIfTKo&sensor=true')
+    script(src='/js/source/jquery.geocomplete.js')
     script(src='/js/source/new-site.js')
     block scripts
 

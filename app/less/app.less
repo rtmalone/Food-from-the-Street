@@ -1,7 +1,45 @@
+@import url(http://fonts.googleapis.com/css?family=Federo);
+@font1: 'Federo', sans-serif;
 @bg-color: white;
+@color: rgb(85, 126, 85);
 
 body{
   background-color: @bg-color;
+}
+
+button {
+  background-color: darken(#f2e5d4, 50%) !important;
+}
+
+#logout {
+  background-color: rgb(223, 89, 0) !important;
+}
+
+.green  {
+  background-color: @color !important;
+}
+
+.reveal-modal {
+  border-radius: 10px !important;
+  background-color: lighten(@color, 40%) !important;
+}
+
+#logout {
+  margin-top: 5px;
+  margin-bottom: 0px !important;
+}
+
+#title {
+  font-family: @font1;
+}
+
+.modTitle {
+  font-family: @font1;
+}
+
+.retroFont {
+  font-family: @font1;
+  text-decoration: underline;
 }
 
 #map {
@@ -12,6 +50,41 @@ body{
   }
 }
 
-#markerContent p{
-  font-size: 1em;
+#markerContent {
+  h6 {
+    font-family: @font1;
+  }  
+  p {
+    font-size: 1em;
+  }
+}
+
+///----- Profile
+
+#profileDiv {
+  width: 75%;
+  height: 75%;
+  margin: auto;
+  border-radius: 10px;
+  margin-top: 5%;
+  background-color: lighten(@color, 40%) !important;
+  padding: 3%;
+  p{
+    font-size: 0.8em;
+  }
+}
+
+#eventsDiv {
+  border-radius: 10px;
+  overflow: scroll !important;
+  height: 25em;
+}
+
+.event {
+  background-color: white;
+  border-radius: 10px;
+  padding: 1%;
+  margin: 10px;
+  width: 40%;
+  float: left;
 }

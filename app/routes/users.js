@@ -2,6 +2,8 @@
 
 var User = require('../models/user');
 var Site = require('../models/site');
+var _ = require('lodash');
+var moment = require('moment');
 
 exports.register = function(req, res){
   var user = new User(req.body);
@@ -47,7 +49,13 @@ exports.profile = function(req, res){
       });
     } else {
       Site.findAllByTruckId(req.session.userId, function(sites){
-        res.render('users/profile', {user:user, sites:sites});
+        var sitesToday = _.remove(sites, function(site){
+          return site.date === moment().format('YYYY-MM-DD');
+        });
+        //var sitesNow = _.remove(sitesToday, function(site){
+          //return site.endTime > moment().format('HH');
+        //});
+        res.render('users/profile', {user:user, sites:sitesToday});
       });
     }
   });
