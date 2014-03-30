@@ -50,7 +50,7 @@ exports.profile = function(req, res){
     } else {
       Site.findAllByTruckId(req.session.userId, function(sites){
         var sitesToday = _.remove(sites, function(site){
-          return site.date === moment().format('YYYY-MM-DD');
+          return site.date >= moment().format('YYYY-MM-DD');
         });
         //var sitesNow = _.remove(sitesToday, function(site){
           //return site.endTime > moment().format('HH');
@@ -68,11 +68,16 @@ exports.update = function(req, res){
 };
 
 exports.addTruck = function(req, res){
-  console.log('VVVVVVVVVVVVVVVVV');
-  console.log(req.session.userId);
   User.findById(req.session.userId, function(user){
-    console.log(user);
     user.addTruck(req.body.truckId, function(){
+      res.redirect('users/profile');
+    });
+  });
+};
+
+exports.removeTruck = function(req, res){
+  User.findById(req.session.userId, function(user){
+    user.removeTruck(user._id, req.params.truckId, function(){
       res.redirect('users/profile');
     });
   });

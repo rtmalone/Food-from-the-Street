@@ -23,6 +23,7 @@ function load(app, fn){
   app.post('/logout', d, users.logout);
   app.post('/updateUser', d, users.update);
   app.post('/users/addTruck', d, users.addTruck);
+  app.del('/removeTruck/:id', d, users.removeTruck);
   app.get('/users/:id', d, users.profile);
 
   app.post('/sites', d, sites.create);

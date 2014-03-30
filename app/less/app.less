@@ -2,9 +2,12 @@
 @font1: 'Federo', sans-serif;
 @bg-color: white;
 @color: rgb(85, 126, 85);
+@radius: 10px;
 
 body{
   background-color: @bg-color;
+  background-image: url('/img/oldmapdark.jpg');
+  background-size: cover;
 }
 
 button {
@@ -39,7 +42,6 @@ button {
 
 .retroFont {
   font-family: @font1;
-  text-decoration: underline;
 }
 
 #map {
@@ -61,30 +63,62 @@ button {
 
 ///----- Profile
 
+#profilebg  {
+}
+
 #profileDiv {
   width: 75%;
   height: 75%;
   margin: auto;
-  border-radius: 10px;
+  border-radius: @radius;
   margin-top: 5%;
   background-color: lighten(@color, 40%) !important;
   padding: 3%;
   p{
     font-size: 0.8em;
+    margin-bottom: 0em;
+  }
+  h1 {
+    margin-top: -3%;
+    text-shadow: 2px 2px 2px whitesmoke;
+  }
+  h6 {
+    text-shadow: 2px 2px 2px whitesmoke;
   }
 }
 
 #eventsDiv {
-  border-radius: 10px;
   overflow: scroll !important;
   height: 25em;
 }
 
-.event {
+.eventDiv {
   background-color: white;
-  border-radius: 10px;
+  border-radius: @radius;
   padding: 1%;
-  margin: 10px;
-  width: 40%;
+  margin: 1%;
+  width: 47%;
+  height: 33%;
   float: left;
+  box-shadow: 0px 8px 4px -6px grey;
+  button {
+    padding: 7px;
+    border-radius: @radius;
+  }
+}
+
+.truckDiv {
+  background-color: white;
+  border-radius: @radius;
+  padding: 1%;
+  margin: 1%;
+  width: 31%;
+  height: 13%;
+  float: left;
+  box-shadow: 0px 8px 4px -6px grey;
+  button {
+    padding: 7px;
+    border-radius: @radius;
+  }
+
 }

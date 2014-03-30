@@ -10,35 +10,34 @@ html(class='no-js', lang='en')
     link(rel='stylesheet', href='/less/app.css')
     script(src='/js/vendor/modernizr.js')
   body
-    .fixed
-      nav.top-bar.green
-        ul.title-area
-          li.name
-            h1: a#title(href="/") Food on the Street
-          li.toggle-topbar.menu-icon
+    nav.top-bar.green
+      ul.title-area
+        li.name
+          h1: a#title(href="/") Food from the Street
+        li.toggle-topbar.menu-icon
 
-        section.top-bar-section
-          ul.left
-          ul.right.green
+      section.top-bar-section
+        ul.left
+        ul.right.green
+          li.divider
+          if user
+            li.green.has-form.has-dropdown.not-click
+              a.green(href='#')= user.name ? user.name : user.email
+              if user.role === 'Foodie'
+                ul.dropdown
+                  li.green: a.green(href='/users/'+user._id) Account
+              else
+                ul.dropdown
+                  li.green: a.green(href='/users/'+user._id) Account
+                  li.green: a.green(href='#' data-reveal-id='newEventModal') New Event
             li.divider
-            if user
-              li.green.has-form.has-dropdown.not-click
-                a.green(href='#')= user.name ? user.name : user.email
-                if user.role === 'Foodie'
-                  ul.dropdown
-                    li.green: a.green(href='/users/'+user._id) Account
-                else
-                  ul.dropdown
-                    li.green: a.green(href='/users/'+user._id) Account
-                    li.green: a.green(href='#' data-reveal-id='newEventModal') New Event
-              li.divider
-              li.green.has-form
-                form(action='/logout', method='post')
-                  button#logout.tiny.radius.alert Logout
-            else
-              li.green: a.green(href='#' data-reveal-id='registerModal') Register
-              li.divider
-              li.green: a.green(href='#' data-reveal-id='loginModal') Login
+            li.green.has-form
+              form(action='/logout', method='post')
+                button#logout.tiny.radius.alert Logout
+          else
+            li.green: a.green(href='#' data-reveal-id='registerModal') Register
+            li.divider
+            li.green: a.green(href='#' data-reveal-id='loginModal') Login
 
       #registerModal.reveal-modal.medium(data-reveal)
         .row
@@ -87,37 +86,38 @@ html(class='no-js', lang='en')
         a.close-reveal-modal &#215;
 
       #newEventModal.reveal-modal.medium(data-reveal)
-        .row
-          .small-12.columns
-            h3.modTitle Create your new event...
-        form(action='/sites', method='post')
-          .row
-            .small-4.columns
-              label Truck Name
-              input#setAttr(type='text', name='truckName', autofocus=true)
-            .small-8.columns
-              label Event Name (optional)
-              input(type='text', name='eventName')
-          .row
-            .small-4.columns
-              label Date
-              input#dateInput(type='date', name='date')
-            .small-4.columns
-              label Start Time
-              input#startInput(type='time', name='startTime')
-            .small-4.columns
-              label End Time
-              input#endInput(type='time', name='endTime')
+        if user
           .row
             .small-12.columns
-              label Event Address
-              input#addressInput(type='text', name='address')
-              input(type='hidden', name='lat')
-              input(type='hidden', name='lng')
-          .row
-            .small-4.columns.right
-              button#createEventBtn.small.radius.alert.right Create Event
-        a.close-reveal-modal &#215;
+              h3.modTitle Create your new event...
+          form(action='/sites', method='post')
+            .row
+              .small-4.columns
+                label Truck Name
+                input#setAttr(type='text', name='truckName', value=user.name, autofocus=true)
+              .small-8.columns
+                label Event Name (optional)
+                input(type='text', name='eventName')
+            .row
+              .small-4.columns
+                label Date
+                input#dateInput(type='date', name='date')
+              .small-4.columns
+                label Start Time
+                input#startInput(type='time', name='startTime')
+              .small-4.columns
+                label End Time
+                input#endInput(type='time', name='endTime')
+            .row
+              .small-12.columns
+                label Event Address
+                input#addressInput(type='text', name='address')
+                input(type='hidden', name='lat')
+                input(type='hidden', name='lng')
+            .row
+              .small-4.columns.right
+                button#createEventBtn.small.radius.alert.right Create Event
+          a.close-reveal-modal &#215;
 
 
     block content
@@ -126,9 +126,9 @@ html(class='no-js', lang='en')
     script(src='/js/vendor/foundation.min.js')
     script(src='/js/vendor/lodash.js')
     script(src='/js/vendor/moment.js')
+    script(src='/js/vendor/jquery.geocomplete.min.js')
     script(src='/js/source/main.js')
-    script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyABh9kQpqRs0PlP4osmgibebLfXHxIfTKo&sensor=true')
-    script(src='/js/source/jquery.geocomplete.js')
+    script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyABh9kQpqRs0PlP4osmgibebLfXHxIfTKo&sensor=true&libraries=places')
     script(src='/js/source/new-site.js')
     block scripts
 

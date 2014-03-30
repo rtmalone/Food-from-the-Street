@@ -48,16 +48,6 @@ Site.findAllByTruckId = function(truckId, fn){
     fn(records);
   });
 };
-/*
-Site.findClosestByNow = function(query, fn){
-  var lat = query.lat * 1;
-  var lng = query.lng * 1;
-
-  sites.find({'coordinates':{$nearSphere:{$geometry:{type:'Point', coordinates:[lat, lng]}},
-    $maxDistance : 2500000}}).toArray(function(err, records){
-    fn(records);
-  });
-  };*/
 
 Site.deleteById = function(id, fn){
   var _id = Mongo.ObjectID(id);

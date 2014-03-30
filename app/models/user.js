@@ -51,7 +51,6 @@ function insert(user, fn){
   });
 }
 
-// Note to self: update should only update specific keys; route rerender page
 User.update = function(id, obj, fn){
   var userId = Mongo.ObjectID(id);
   users.update({_id:userId}, {$set: obj}, function(err, count){
@@ -96,9 +95,10 @@ User.prototype.addTruck = function(truckID, fn){
   });
 };
 
-User.removeTruck = function(truckID, fn){
+User.prototype.removeTruck = function(truckID, fn){
+  var self = this;
   var _truckID = Mongo.ObjectID(truckID);
-  users.update({truckIds: _truckID}, {$pull: {truckIds: _truckID}}, function(err, count){
+  users.update({_id: self._id}, {$pull: {truckIds: _truckID}}, function(err, count){
     fn(count);
   });
 };

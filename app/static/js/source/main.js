@@ -6,7 +6,8 @@
 
   function initialize(){
     $(document).foundation();
-    //$('#addressInput').geocomplete();
+    $('#addressInput').geocomplete();
+    //$.fn.geocomplete('#addressInput');
   }
 
 

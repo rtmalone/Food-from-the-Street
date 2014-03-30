@@ -1,38 +1,53 @@
 extends ../shared/template
 
 block content
-  .row#profileDiv
-    .small-6.columns
-      h3.retroFont= user.name
-    .small-6.columns
+  #profilebg
+    .row#profileDiv
+      .small-6.columns
+        h1.retroFont= user.name
+      .small-6.columns
+        .row
+          .small-12.columns
+            h6.right= user.email
+          .small-12.columns
+            h6.right= user.phone
+
       .row
         .small-12.columns
-          h6.right= user.email
-        .small-12.columns
-          h6.right= user.phone
-
-    .row
-      .small-12.columns
-        if user.role === 'Truck'
-          h5.retroFont Upcoming Events
-          #eventsDiv
-            each site in sites
-              .event
-                h6 Event: #{site.eventName}
-                p Date: #{site.date}
-                p Time: #{site.startTime} - #{site.endTime}
-                p Address: #{site.address}
-                form(action='/sites/'+site._id, method='post')
-                  input(type='hidden', name='_method', value='delete')
-                  button.alert.tiny.radius Delete
-        else
-          #eventDiv
-            h5.retroFont Favorite Trucks
-            each truck in myTrucks
-              h6= truck.name
-            form(action='/users/addTruck', method='post')
-              select#selectTruck(name='truckId')
-                each truck in trucks
-                  option(value=truck._id)= truck.name
-              button.tiny.radius Add Truck
+          if user.role === 'Truck'
+            h5.retroFont Upcoming Events
+            #eventsDiv
+              each site in sites
+                .eventDiv
+                  .row
+                    .small-10.columns
+                      h6 Event: #{site.eventName}
+                      p Date: #{site.date}
+                      p Time: #{site.startTime} - #{site.endTime}
+                      p Address: #{site.address}
+                    .small-2.columns
+                      form(action='/sites/'+site._id, method='post')
+                        input(type='hidden', name='_method', value='delete')
+                        button.right X
+          else
+            #eventsDiv
+              h5.retroFont Favorite Trucks
+              form(action='/users/addTruck', method='post')
+                .row.collapse
+                  .small-2.columns
+                    select#selectTruck(name='truckId')
+                      each truck in trucks
+                        option(value=truck._id)= truck.name
+                  .small-1.columns.left
+                    button.button.tiny.radius.postfix Add
+              each truck in myTrucks
+                .truckDiv
+                  .row
+                    .small-10.columns
+                      h6= truck.name
+                      input(type='hidden', name='truckID', value=truck._id)
+                    .small-2.columns
+                      form(action='/removeTruck/'+truck._id, method='post')
+                        input(type='hidden', name='_method', value='delete')
+                        button.right X
 

@@ -1,7 +1,6 @@
 'use strict';
 
 var Site = require('../models/site');
-//var User = require('../models/user');
 var Mongo = require('mongodb');
 
 exports.create = function(req, res){
