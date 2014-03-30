@@ -12,7 +12,8 @@ exports.index = function(req, res){
     var sitesNow = _.remove(sitesToday, function(site){
       return site.endTime > moment().format('HH');
     });
-    res.render('home/index', {title: 'Express Template', sites:sitesNow});
+    console.log(sitesNow);
+    res.render('home/index', {title: 'Food on the Street', sites:sitesNow});
   });
 };
 

@@ -4,8 +4,6 @@ process.env.DBNAME = 'truck-test';
 var app = require('../../app/app');
 var request = require('supertest');
 var expect = require('chai').expect;
-//var fs = require('fs');
-//var exec = require('child_process').exec;
 var User, cookie, sue;
 
 describe('users', function(){
@@ -39,19 +37,7 @@ describe('users', function(){
       .expect(200, done);
     });
   });
-/*
-  describe('GET /auth', function(){
-    it('should display the auth page', function(done){
-      request(app)
-      .get('/auth')
-      .end(function(err, res){
-        expect(res.status).to.equal(200);
-        expect(res.text).to.include('User Authentication');
-        done();
-      });
-    });
-  });
-*/
+
   describe('POST /register', function(){
     before(function(done){
       global.nss.db.dropDatabase(function(err, result){
@@ -153,16 +139,18 @@ describe('users', function(){
       });
     });
   });
-    /*
-    describe('POST /addTruck', function(){
-      it('should add a truck to a user', function(done){
-        request(app)
-        .post('/addTruck')
-        .set('cookie', cookie)
+/*
+  describe('POST /addTruck', function(){
+    it('should add a truck to a user', function(done){
+      request(app)
+      .post('/users/addTruck')
+      .set('cookie', cookie)
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        done();
       });
     });
-  });
-  */
+  });*/
   /////END DESCRIBE
 });
 

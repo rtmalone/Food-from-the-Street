@@ -6,6 +6,7 @@
 
   'use strict';
 
+
   $(document).ready(initialize);
 
   var map, lat, lng;
@@ -64,9 +65,13 @@
   }
 
   function addMarker(location){
+    var sTime = moment(location.startTime, 'H:mm').format('h:mm a');
+    var eTime = moment(location.endTime, 'H:mm').format('h:mm a');
     var position = new google.maps.LatLng(location.coordinates[0], location.coordinates[1]);
-    var content = '<div>'+location.truckName+'<p>'+location.address+'</p>'+
-                  '<p>'+location.startTime+'</p>'+'<p>'+location.endTime+'</p>'+'</div>';
+    var content = '<div id="markerContent"><h6>'+location.truckName+'</h6>'+
+                  '<p>'+sTime+'<span>'+'&nbsp;-&nbsp;'+'</span>'+eTime+
+                  '<br>'+location.address+'</p>'+
+                  '</div>';
     var infowindow = new google.maps.InfoWindow({
       content: content
     });
@@ -75,6 +80,9 @@
     //content for window
     google.maps.event.addListener(marker, 'mouseover', function() {
       infowindow.open(map,marker);
+    });
+    google.maps.event.addListener(marker, 'mouseout', function() {
+      infowindow.close(map,marker);
     });
   }
 

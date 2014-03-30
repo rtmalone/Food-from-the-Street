@@ -88,16 +88,9 @@ User.findByEmailAndPassword = function(email, password, fn){
   });
 };
 
-// May need to return to addTruck and removeTruck once more info
-// is obtained about prototype vs class methods
 User.prototype.addTruck = function(truckID, fn){
   var self = this;
   var _truckID = Mongo.ObjectID(truckID);
-  console.log(_truckID);
- // var contain = _.contains(this.trucks, _truckID);
-  //if(!contain){
-    //this.trucks.push(_truckID);
-  //}
   users.update({_id:self._id}, {$addToSet: {truckIds: _truckID}}, function(err, count){
     fn(count);
   });
@@ -118,7 +111,6 @@ User.findFoodiesByTruck = function(truckID, fn){
 };
 
 User.prototype.trucks = function(fn) {
-  //var ids = _.map(this.truckIds, function(id){ return Mongo.ObjectID(id);});
   users.find({role: 'Truck', _id: { $in: this.truckIds }}).toArray(function(err, trucks){
     fn(trucks);
   });

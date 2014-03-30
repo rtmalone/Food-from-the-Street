@@ -2,8 +2,6 @@
 
 var User = require('../models/user');
 var Site = require('../models/site');
-//var Item = require('../models/item');
-//var request = require('request');
 
 exports.register = function(req, res){
   var user = new User(req.body);
@@ -39,7 +37,6 @@ exports.logout = function(req, res){
   });
 };
 
-// Need a Site.findByTruckId method to return events linked to trucks here
 exports.profile = function(req, res){
   User.findById(req.session.userId, function(user){
     if(user.role === 'Foodie'){
@@ -63,8 +60,10 @@ exports.update = function(req, res){
 };
 
 exports.addTruck = function(req, res){
-  console.log(req.body);
+  console.log('VVVVVVVVVVVVVVVVV');
+  console.log(req.session.userId);
   User.findById(req.session.userId, function(user){
+    console.log(user);
     user.addTruck(req.body.truckId, function(){
       res.redirect('users/profile');
     });

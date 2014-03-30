@@ -28,7 +28,7 @@ describe('items', function(){
                              password: '1234',
                              role: 'Truck'});
       truck1.register(function(){
-        
+
         site1 = new Site({eventName: 'Code Party',
                        truckName: 'Smoke et al',
                        startTime: '03/24/14 11:00 AM',

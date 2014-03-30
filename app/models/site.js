@@ -4,15 +4,13 @@ module.exports = Site;
 var sites = global.nss.db.collection('sites');
 var Mongo = require('mongodb');
 var _ = require('lodash');
-//var moment = require('moment');
-//var dateFormat = 'HH:mm A';
 
 function Site(attrs){
   this.eventName = attrs.eventName || attrs.truckName;
   this.address = attrs.address;
   this.truckName = attrs.truckName;
-  this.startTime = attrs.startTime; //reminder: moment parses string from browser
-  this.endTime = attrs.endTime; //reminder: moment parses string from browser
+  this.startTime = attrs.startTime;
+  this.endTime = attrs.endTime;
   this.date = attrs.date;
   this.coordinates= [attrs.lat * 1, attrs.lng * 1];
   this.truckId = Mongo.ObjectID(attrs.truckId);
@@ -50,17 +48,16 @@ Site.findAllByTruckId = function(truckId, fn){
     fn(records);
   });
 };
-
+/*
 Site.findClosestByNow = function(query, fn){
   var lat = query.lat * 1;
   var lng = query.lng * 1;
 
   sites.find({'coordinates':{$nearSphere:{$geometry:{type:'Point', coordinates:[lat, lng]}},
     $maxDistance : 2500000}}).toArray(function(err, records){
-    console.log('/////records///');
     fn(records);
   });
-};
+  };*/
 
 Site.deleteById = function(id, fn){
   var _id = Mongo.ObjectID(id);
