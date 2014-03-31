@@ -1,7 +1,7 @@
 Food from the Street
 =========
 [![Build Status](https://travis-ci.org/rtmalone/food-truck.svg)](https://travis-ci.org/rtmalone/food-truck)
-[![Coverage Status](https://coveralls.io/repos/rtmalone/food-truck/badge.png?branch=unit-tests)](https://coveralls.io/r/rtmalone/food-truck?branch=unit-tests)
+[![Build Status](https://travis-ci.org/rtmalone/Food-from-the-Street.svg?branch=master)](https://travis-ci.org/rtmalone/Food-from-the-Street)
 [![Dependency Status](https://gemnasium.com/rtmalone/food-truck.svg)](https://gemnasium.com/rtmalone/food-truck)
 
 An app developed for Food Trucks to broadcast their locations. Locations can be set up as events in advanced, but the map will only display those active or upcoming on the current day.
