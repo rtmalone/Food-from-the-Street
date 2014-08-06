@@ -1,6 +1,6 @@
 Food from the Street
 =========
-[![Build Status](https://travis-ci.org/rtmalone/food-truck.svg)](https://travis-ci.org/rtmalone/food-truck)
+[![Coverage Status](https://img.shields.io/coveralls/rtmalone/food-truck.svg)](https://coveralls.io/r/rtmalone/food-truck?branch=master)
 [![Build Status](https://travis-ci.org/rtmalone/Food-from-the-Street.svg?branch=master)](https://travis-ci.org/rtmalone/Food-from-the-Street)
 [![Dependency Status](https://gemnasium.com/rtmalone/food-truck.svg)](https://gemnasium.com/rtmalone/food-truck)
 
