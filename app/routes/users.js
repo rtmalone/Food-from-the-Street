@@ -52,9 +52,6 @@ exports.profile = function(req, res){
         var sitesToday = _.remove(sites, function(site){
           return site.date >= moment().format('YYYY-MM-DD');
         });
-        //var sitesNow = _.remove(sitesToday, function(site){
-          //return site.endTime > moment().format('HH');
-        //});
         res.render('users/profile', {user:user, sites:sitesToday});
       });
     }

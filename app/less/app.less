@@ -14,34 +14,14 @@ button {
   background-color: darken(#f2e5d4, 50%) !important;
 }
 
-#logout {
-  background-color: rgb(223, 89, 0) !important;
-}
-
 .green  {
   background-color: @color !important;
 }
 
-.reveal-modal {
-  border-radius: 10px !important;
-  background-color: lighten(@color, 40%) !important;
-}
-
 #logout {
+  background-color: rgb(223, 89, 0) !important;
   margin-top: 5px;
   margin-bottom: 0px !important;
-}
-
-#title {
-  font-family: @font1;
-}
-
-.modTitle {
-  font-family: @font1;
-}
-
-.retroFont {
-  font-family: @font1;
 }
 
 #map {
@@ -55,13 +35,50 @@ button {
 #markerContent {
   h6 {
     font-family: @font1;
-  }  
+  }
   p {
     font-size: 1em;
   }
 }
 
+.modTitle {
+  font-family: @font1;
+}
+
+.reveal-modal {
+  border-radius: 10px !important;
+  background-color: lighten(@color, 40%) !important;
+}
+
+.retroFont {
+  font-family: @font1;
+}
+
+#title {
+  font-family: @font1;
+}
+
 ///----- Profile
+
+#eventsDiv {
+  overflow: scroll !important;
+  height: 25em;
+}
+
+.eventDiv {
+  background-color: white;
+  border-radius: @radius;
+  padding: 1%;
+  margin: 1%;
+  width: 47%;
+  height: 33%;
+  float: left;
+  box-shadow: 0px 8px 4px -6px grey;
+  button {
+    padding: 7px;
+    border-radius: @radius;
+  }
+}
 
 #profilebg  {
 }
@@ -87,26 +104,6 @@ button {
   }
 }
 
-#eventsDiv {
-  overflow: scroll !important;
-  height: 25em;
-}
-
-.eventDiv {
-  background-color: white;
-  border-radius: @radius;
-  padding: 1%;
-  margin: 1%;
-  width: 47%;
-  height: 33%;
-  float: left;
-  box-shadow: 0px 8px 4px -6px grey;
-  button {
-    padding: 7px;
-    border-radius: @radius;
-  }
-}
-
 .truckDiv {
   background-color: white;
   border-radius: @radius;
@@ -120,5 +117,4 @@ button {
     padding: 7px;
     border-radius: @radius;
   }
-
 }

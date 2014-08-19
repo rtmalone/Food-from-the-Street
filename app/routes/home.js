@@ -6,7 +6,6 @@ var _ = require('lodash');
 
 exports.index = function(req, res){
   Site.findAll(function(sites){
-    console.log(sites);
     var sitesToday = _.remove(sites, function(site){
       return site.date === moment().format('YYYY-MM-DD');
     });
@@ -16,4 +15,3 @@ exports.index = function(req, res){
     res.render('home/index', {title: 'Food from the Street', sites:sitesNow});
   });
 };
-
